@@ -4,6 +4,7 @@ package controller
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/shereifsrf/savespent-api/service"
@@ -36,13 +37,14 @@ func (s *sessionController) AddSession(c *gin.Context) {
 	}
 
 	// add user session
-	user, err := s.sessionService.AddSession(&bSession)
+	_, err := s.sessionService.AddSession(&bSession)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{"user": user})
+	// send 200 with no message
+	c.JSON(http.StatusOK, gin.H{})
 }
 
 // register session routes
